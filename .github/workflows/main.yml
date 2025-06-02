@@ -1,22 +1,17 @@
-name: Flight App CI/CD
+name: Automated API tests using Postman CLI
 
-on:
-	push:
-		branches: [ main ]
-	pull_request:
-		branches: [ main ]
+on: push
+
 jobs:
-	test:
-		runs-on: macos-latest
-		steps:
-			- uses: actions/checkout@v3
-			- name: Set up environment
-			run: echo "Setting up environment"
-			- name: Install Postman CLI
-			run: |
-				curl -o- "https://dl-cli.pstmn.io/install/osx_64.sh" | sh
-			- name: Login to Postman CLI
-			run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-			- name: Run API tests
-			run: |
-				postman collection run "38799512-3283fbfa-468b-45d9-80df-65c65097f445" -e "38799512-1852b1d0-42d5-4b24-89e7-627db9e746d5"
+  automated-api-tests:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/osx_64.sh" | sh
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
+        run: |
+          postman collection run "38799512-3283fbfa-468b-45d9-80df-65c65097f445" -e "38799512-1852b1d0-42d5-4b24-89e7-627db9e746d5"
